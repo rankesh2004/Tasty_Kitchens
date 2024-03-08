@@ -1,0 +1,140 @@
+.login-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.login-form-container {
+  display: flex;
+  align-items: center;
+  width: 60%;
+}
+.login-form {
+  width: 456px;
+  height: 523px;
+  top: 250px;
+  left: 165px;
+  border-radius: 8px;
+  box-shadow: 0px 8px 40px 0px #07070714;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+.logo {
+  width: 73px;
+  height: 63px;
+  top: 298px;
+  left: 366px;
+  padding: 2px;
+}
+.logo-and-title {
+  text-align: center;
+}
+.logo-text {
+  color: #f7931e;
+  font-family: 'DM Sans';
+  font-size: 35px;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: 0px;
+  text-align: left;
+  margin-top: 0px;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 8px;
+}
+.input-heading {
+  color: #475569;
+  font-family: 'DM Sans';
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.01em;
+  text-align: left;
+}
+.input-bar {
+  width: 360px;
+  height: 40px;
+  top: 24px;
+  border-radius: 5px;
+  border: 0px;
+  background-color: rgba(226, 232, 240, 1);
+  border-color: rgba(226, 232, 240, 1);
+  outline: none;
+  padding-left: 10px;
+}
+.login-btn {
+  width: 360px;
+  height: 40px;
+  border-radius: 5px;
+  border: 0px;
+  border-color: #f7931e;
+  background-color: #f7931e;
+  font-family: DM Sans;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: 0em;
+  text-align: center;
+  cursor: pointer;
+}
+.tasty-img {
+  width: 50vw;
+  height: 100vh;
+  left: 735px;
+  margin-right: 0px;
+  flex-grow: 1;
+}
+.error-message {
+  color: rgba(239, 68, 68, 1);
+}
+.tasty-img-mobile {
+  display: none;
+}
+.login-text-mobile {
+  display: none;
+}
+.login {
+  font-family: 'Roboto';
+}
+@media screen and (max-width: 768px) {
+  .login-text-mobile {
+    display: block;
+  }
+  .input-bar {
+    width: 350px;
+    height: 35px;
+  }
+  .login-btn {
+    width: 350px;
+    height: 35px;
+  }
+  .login-form {
+    box-shadow: 0px 0px 0px 0px;
+    height: 200px;
+  }
+  .login,
+  .logo,
+  .logo-text,
+  .tasty-img {
+    display: none;
+  }
+  .login-form-container {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    width: 100vh;
+  }
+  .tasty-img-mobile {
+    display: block;
+    align-items: flex-end;
+    width: 100%;
+    margin: auto;
+  }
+}
