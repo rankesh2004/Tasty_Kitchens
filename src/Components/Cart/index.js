@@ -15,9 +15,13 @@ class Cart extends Component {
   };
 
   componentDidMount() {
-    const itemsList = JSON.parse(localStorage.getItem("cart_items"));
-    this.setState({ itemsList });
+    this.getLocalStorage();
   }
+
+  getLocalStorage = () => {
+    const itemsList = JSON.parse(localStorage.getItem("cart_items"));
+    this.setState({ itemsList }, this.onRefresh);
+  };
 
   onPlaceOrder = () => {
     this.setState({ placeOrder: true });
@@ -92,6 +96,7 @@ class Cart extends Component {
                 key={e.id}
                 itemDetails={e}
                 DeleteCartItem={this.DeleteCartItem}
+                getLocalStorage={this.getLocalStorage}
                 onRefresh={this.onRefresh}
               />
             ))}
@@ -106,7 +111,7 @@ class Cart extends Component {
             </div>
           </div>
           <div className="plaord-ref-btn-box">
-            <button className="place-order-btn" onClick={this.onRefresh}>
+            <button className="place-order-btn" onClick={this.getLocalStorage}>
               Refresh
             </button>
 
