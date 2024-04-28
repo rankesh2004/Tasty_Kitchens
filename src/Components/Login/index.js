@@ -7,36 +7,29 @@ import LoginImgMob from "../../IMG/LoginImgMob.png";
 import "./index.css";
 
 class Login extends Component {
-  state = {
-    username: "",
-    password: "",
-    errorMsg: "",
-    isError: false,
-  };
+  state = { username: "", password: "", showSubmitError: "", errorMsg: "" };
 
   onSubmitSuccess = (jwtToken) => {
     const { history } = this.props;
-    Cookies.set("jwt_token", jwtToken, { expires: 30 });
+
+    Cookies.set("jwt_token", jwtToken, { expires: 10 });
     history.replace("/");
-    this.setState({ isError: false });
   };
 
   onSubmitFailure = (errorMsg) => {
-    this.setState({ errorMsg, isError: true });
+    this.setState({ showSubmitError: true, errorMsg });
   };
 
-  onSubmit = async (event) => {
+  successSubmit = async (event) => {
     event.preventDefault();
     const { username, password } = this.state;
     const userDetails = { username, password };
-    const apiUrl = "https://apis.ccbp.in/login";
-
-    const options = {
+    const url = "https://apis.ccbp.in/login";
+    const option = {
       method: "POST",
       body: JSON.stringify(userDetails),
     };
-
-    const response = await fetch(apiUrl, options);
+    const response = await fetch(url, option);
     const data = await response.json();
     if (response.ok === true) {
       this.onSubmitSuccess(data.jwt_token);
@@ -45,17 +38,58 @@ class Login extends Component {
     }
   };
 
-  onChangeUserName = (e) => {
-    this.setState({ username: e.target.value });
+  onChangeUsername = (event) => {
+    this.setState({ username: event.target.value });
   };
 
-  onChangePassword = (e) => {
-    this.setState({ password: e.target.value });
+  onChangePassword = (event) => {
+    this.setState({ password: event.target.value });
+  };
+  usernameInput = () => {
+    const { username } = this.state;
+    const jwtToken = Cookies.get("jwt_token");
+    if (jwtToken !== undefined) {
+      return <Redirect to="/" />;
+    }
+    return (
+      <div className="input-container">
+        <label className="input-heading" htmlFor="username">
+          USERNAME
+        </label>
+        <input
+          className="input-bar"
+          type="text"
+          id="username"
+          placeholder="username"
+          onChange={this.onChangeUsername}
+          value={username}
+        />
+      </div>
+    );
+  };
+
+  passwordInput = () => {
+    const { password } = this.state;
+    return (
+      <div className="input-container">
+        <label className="input-heading" htmlFor="password">
+          PASSWORD
+        </label>
+        <input
+          className="input-bar"
+          type="password"
+          id="password"
+          placeholder="password"
+          onChange={this.onChangePassword}
+          value={password}
+        />
+      </div>
+    );
   };
 
   render() {
     const jwtToken = Cookies.get("jwt_token");
-
+    const {showSubmitError,errorMsg} = this.state
     if (jwtToken !== undefined) {
       return <Redirect to="/" />;
     }
@@ -63,41 +97,25 @@ class Login extends Component {
     return (
       <div className="login-container">
         <div className="login-form-container">
-          <img src={LoginImgMob} alt="" className="tasty-img-mobile" />
-          <h1 className="login-text-mob">Login</h1>
-          <form className="login-form" onSubmit={this.onSubmit}>
-            <img src={AppLogo} alt="App Logo" className="app-logo" />
-            <h1 className="app-title">Tasty Kitchens</h1>
-            <h1 className="login-text">Login</h1>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <label className="form-label" htmlFor="USERNAME">
-                USERNAME
-              </label>
-              <input
-                type="text"
-                className="form-input"
-                id="USERNAME"
-                onChange={this.onChangeUserName}
-              />
-              <label className="form-label" htmlFor="PASSWORD">
-                PASSWORD
-              </label>
-              <input
-                type="password"
-                className="form-input"
-                id="PASSWORD"
-                onChange={this.onChangePassword}
-              />
-              <button type="submit" className="login-btn">
-                Login
-              </button>
-              {this.state.isError ? (
-                <p className="login-err-msg">*{this.state.errorMsg}</p>
-              ) : null}
+          <img src={LoginImgMob} alt="tasty-img" className="tasty-img-mobile" />
+          <h1 className="login-text-mobile">Login</h1>
+          <form className="login-form" onSubmit={this.successSubmit}>
+            <div className="logo-and-title">
+              <img src={AppLogo} alt="tasty-kitchen" className="logo" />
+              <p className="logo-text">Tasty Kitchens</p>
             </div>
+            <h1 className="login">Login</h1>
+            {this.usernameInput()}
+            {this.passwordInput()}
+            <button type="submit" className="login-btn">
+              Login
+            </button>
+            {showSubmitError && <p className="error-message">*{errorMsg}</p>}
           </form>
         </div>
-        <img src={LoginImg} alt="" className="login-img" />
+        <div>
+          <img src={LoginImg} alt="tasty-img" className="tasty-img" />
+        </div>
       </div>
     );
   }

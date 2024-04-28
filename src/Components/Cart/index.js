@@ -12,6 +12,7 @@ class Cart extends Component {
   state = {
     itemsList: [],
     placeOrder: false,
+    total: 0,
   };
 
   componentDidMount() {
@@ -20,7 +21,15 @@ class Cart extends Component {
 
   getLocalStorage = () => {
     const itemsList = JSON.parse(localStorage.getItem("cart_items"));
-    this.setState({ itemsList }, this.onRefresh);
+    localStorage.setItem("cart_items", JSON.stringify(itemsList));
+    let finalPrice = 0;
+    for (let i of itemsList) {
+      finalPrice += i.cost * i.quantity;
+    }
+    localStorage.setItem("final_price", JSON.stringify(finalPrice));
+    const total = JSON.parse(localStorage.getItem("final_price"));
+    console.log(total);
+    this.setState({ itemsList, total }, this.onRefresh);
   };
 
   onPlaceOrder = () => {
@@ -62,6 +71,7 @@ class Cart extends Component {
 
   onRefresh = () => {
     const itemsList = JSON.parse(localStorage.getItem("cart_items"));
+    localStorage.setItem("cart_items", JSON.stringify(itemsList));
     this.setState({ itemsList });
   };
 
@@ -77,11 +87,9 @@ class Cart extends Component {
   };
 
   renderCartItems = () => {
-    let finalPrice = 0;
+    const { total } = this.state;
     const { itemsList } = this.state;
-    for (let i of itemsList) {
-      finalPrice += i.cost * i.quantity;
-    }
+
     return (
       <>
         <div className="cart-items-box">
@@ -106,7 +114,7 @@ class Cart extends Component {
             <h1 className="order-total-text">Order Total:</h1>
             <div className="box">
               <h1 className="total-price">
-                <BiRupee /> {finalPrice}
+                <BiRupee /> {total}
               </h1>
             </div>
           </div>

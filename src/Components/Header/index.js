@@ -59,6 +59,7 @@ class Header extends Component {
                 alignItems: "center",
                 width: "280px",
                 justifyContent: "space-between",
+                marginLeft: "10px",
               }}
             >
               <img src={appLogo} alt="" className="app-logo" />
